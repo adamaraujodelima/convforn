@@ -2128,6 +2128,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   /*
    * The component's data.
@@ -2208,6 +2215,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       this.editForm.name = client.name;
       this.editForm.redirect = client.redirect;
       $('#modal-edit-client').modal('show');
+    },
+    redirect: function redirect(client) {
+      window.location = 'http://localhost/client/authorize?client_id=' + client.id + '&redirect_uri=' + client.redirect;
     },
 
     /**
@@ -38327,7 +38337,9 @@ var render = function() {
           },
           [
             _c("span", [
-              _vm._v("\n                    OAuth Clients\n                ")
+              _vm._v(
+                "\n                    OAuth Applications\n                "
+              )
             ]),
             _vm._v(" "),
             _c(
@@ -38339,7 +38351,7 @@ var render = function() {
               },
               [
                 _vm._v(
-                  "\n                    Create New Client\n                "
+                  "\n                    Create New Application\n                "
                 )
               ]
             )
@@ -38351,7 +38363,7 @@ var render = function() {
         _vm.clients.length === 0
           ? _c("p", { staticClass: "mb-0" }, [
               _vm._v(
-                "\n                You have not created any OAuth clients.\n            "
+                "\n                You have not created any OAuth Applications.\n            "
               )
             ])
           : _vm._e(),
@@ -38382,6 +38394,26 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", { staticStyle: { "vertical-align": "middle" } }, [
                       _c("code", [_vm._v(_vm._s(client.secret))])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticStyle: { "vertical-align": "middle" } }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "action-link",
+                          attrs: { tabindex: "-1" },
+                          on: {
+                            click: function($event) {
+                              _vm.redirect(client)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                                Authorize\n                            "
+                          )
+                        ]
+                      )
                     ]),
                     _vm._v(" "),
                     _c("td", { staticStyle: { "vertical-align": "middle" } }, [
@@ -38801,7 +38833,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
       _c("h4", { staticClass: "modal-title" }, [
-        _vm._v("\n                        Create Client\n                    ")
+        _vm._v(
+          "\n                        Create Applications\n                    "
+        )
       ]),
       _vm._v(" "),
       _c(

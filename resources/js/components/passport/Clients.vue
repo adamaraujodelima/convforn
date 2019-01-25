@@ -10,11 +10,11 @@
             <div class="card-header">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span>
-                        OAuth Clients
+                        OAuth Applications
                     </span>
 
                     <a class="action-link" tabindex="-1" @click="showCreateClientForm">
-                        Create New Client
+                        Create New Application
                     </a>
                 </div>
             </div>
@@ -22,7 +22,7 @@
             <div class="card-body">
                 <!-- Current Clients -->
                 <p class="mb-0" v-if="clients.length === 0">
-                    You have not created any OAuth clients.
+                    You have not created any OAuth Applications.
                 </p>
 
                 <table class="table table-borderless mb-0" v-if="clients.length > 0">
@@ -53,6 +53,13 @@
                                 <code>{{ client.secret }}</code>
                             </td>
 
+                            <!-- Authorize -->
+                            <td style="vertical-align: middle;">
+                                <a class="action-link" tabindex="-1" @click="redirect(client)">
+                                    Authorize
+                                </a>
+                            </td>
+                            
                             <!-- Edit Button -->
                             <td style="vertical-align: middle;">
                                 <a class="action-link" tabindex="-1" @click="edit(client)">
@@ -78,7 +85,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">
-                            Create Client
+                            Create Applications
                         </h4>
 
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -299,6 +306,10 @@
                 this.editForm.redirect = client.redirect;
 
                 $('#modal-edit-client').modal('show');
+            },
+
+            redirect(client){
+                window.location = 'http://localhost/client/authorize?client_id='+client.id+'&redirect_uri='+client.redirect;
             },
 
             /**
