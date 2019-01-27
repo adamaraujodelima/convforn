@@ -18,5 +18,8 @@ docker exec -it app php artisan migrate
 echo "Rodando os seeds"
 docker exec -it app php artisan db:seed
 
+echo "Configurando API Authentication (Passport)"
+docker exec -it app php artisan passport:install
+
 echo "Informações do container Docker"
 docker ps -a 

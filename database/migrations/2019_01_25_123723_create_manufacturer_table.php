@@ -18,7 +18,6 @@ class CreateManufacturerTable extends Migration
             $table->string('name', 255);
             $table->string('email', 100)->unique();
             $table->double('month_payment', 10, 5);
-            $table->boolean('status');
             $table->timestamps();
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
