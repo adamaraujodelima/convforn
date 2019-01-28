@@ -31,7 +31,7 @@ Route::group([
 ], function(){    
     Route::middleware('auth:api')->get('list','Api\Manufacturer\InfoController@list');
     Route::middleware('auth:api')->get('info/{id}','Api\Manufacturer\InfoController@info');
-    Route::middleware('auth:api')->post('create','Api\Manufacturer\RegisterController@create');
-    Route::middleware('auth:api')->put('update/{id}','Api\Manufacturer\EditController@update');
-    Route::middleware('auth:api')->delete('delete/{id}','Api\Manufacturer\RemoveController@delete');
+    Route::middleware('auth:api')->post('register','Api\Manufacturer\RegisterController@create');
+    Route::middleware('auth:api')->put('edit/{id}','Api\Manufacturer\EditController@update');
+    Route::middleware('auth:api')->delete('remove/{id}','Api\Manufacturer\RemoveController@delete');
 });

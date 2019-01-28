@@ -15,8 +15,8 @@ docker exec -it app php artisan key:generate
 echo "Rodando o migrate"
 docker exec -it app php artisan migrate
 
-echo "Rodando os seeds"
-docker exec -it app php artisan db:seed
+# echo "Rodando os seeds"
+# docker exec -it app php artisan db:seed
 
 echo "Configurando API Authentication (Passport)"
 docker exec -it app php artisan passport:install
