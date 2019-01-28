@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Company;
 
 use App\Company;
 use App\CompanyRepository;
+use Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redis;
@@ -54,8 +55,15 @@ class EditController extends Controller
     
             $Company->save();
 
-            // Dispatching Event
-            event(new UpdateEntities($Company));
+            // // Dispatching Event
+            // event(new UpdateEntities($Company));
+
+            $hasCache = Cache::has('company_entity_' . $request->user()->user_id);
+            if ($hasCache) {
+                Cache::put('company_entity_' . $request->user()->user_id, $Company, 60);
+            }else{
+                Cache::add('company_entity_' . $request->user()->user_id, $Company, 60);
+            }
     
             $jsonResponse = response()->json(['message' => 'success', 'company' => $Company]);    
             return \Response::json($jsonResponse,200);            

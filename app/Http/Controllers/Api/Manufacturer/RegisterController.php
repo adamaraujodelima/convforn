@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Manufacturer;
 use App\User;
 use App\ManufacturerRepository;
 use App\CompanyRepository;
+use Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -64,7 +65,7 @@ class RegisterController extends Controller
 
             event(new Registered($user));
             
-            $Manufacturer = $this->repoManufacturer->create([
+            $manufacturer = $this->repoManufacturer->create([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'month_payment' => $data['month_payment'],            
@@ -73,9 +74,11 @@ class RegisterController extends Controller
             ]);
             
             // Dispatching Event
-            event(new UpdateEntities($Manufacturer));
-                
-            $jsonResponse = response()->json(['status' => 'success', 'message' => 'An e-mail verification to confirm this new register was sended to e-mail informed. Please confirm first before use this Manufacturer.', 'manufacturer' => $Manufacturer]);
+            // event(new UpdateEntities($manufacturer));
+
+            Cache::add('manufacturer_entity_' . $manufacturer->id, $manufacturer, 60);
+
+            $jsonResponse = response()->json(['status' => 'success', 'message' => 'An e-mail verification to confirm this new register was sended to e-mail informed. Please confirm first before use this Manufacturer.', 'manufacturer' => $manufacturer]);
     
             return \Response::json($jsonResponse,200);
         } catch (\Exception $e) {

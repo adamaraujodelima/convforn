@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Company;
 
 use App\Company;
 use App\CompanyRepository;
+use Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redis;
@@ -31,15 +32,15 @@ class InfoController extends Controller
     public function index(Request $request)
     {
         try {
-            if($Company = Redis::get('company.entity.'.$request->user()->id)){
-                $jsonResponse = response()->json(['status' => 'success', 'company' => $Company]);
-                return \Response::json($jsonResponse,200);
-            }
             
-            $Company = $this->CompanyRepository->with('user')->findByField('user_id',$request->user()->id)->first();
+            $repository = $this->CompanyRepository;
 
-            if ($Company) {
-                Redis::set('company.entity.'.$request->user()->id, $Company);
+            $Company = Cache::remember('company_entity_' . $request->user()->user_id, 60, function() use ($request, $repository) {                
+                $Company = $repository->with('user')->findByField('user_id',$request->user()->id)->first();
+                return $Company;
+            });
+
+            if ($Company) {                
                 $jsonResponse = response()->json(['message' => 'success', 'company' => $Company]);    
                 return \Response::json($jsonResponse,200);            
             }else{

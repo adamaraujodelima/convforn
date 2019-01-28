@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Manufacturer;
 use App\User;
 use App\ManufacturerRepository;
 use App\CompanyRepository;
+use Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -42,14 +43,13 @@ class InfoController extends Controller
     public function list(Request $request)
     {
         try {
-            
-            if($Manufacturers = Redis::get('manufacturer.all')){
-                $jsonResponse = response()->json(['status' => 'success', 'manufacturers' => $Manufacturers]);
-                return \Response::json($jsonResponse,200);
-            }
-            $Manufacturers = $this->repoManufacturer->findByField('user_id',$request->user()->id);
-            if ($Manufacturers) {
-                $jsonResponse = response()->json($Manufacturers);
+            $repository = $this->repoManufacturer;
+            $manufacturers = Cache::remember('manufacturer_all_' . $request->user()->id, 60, function() use ($request, $repository) {
+                $manufacturers = $repository->findByField('company_id',$request->user()->company->id);
+                return $manufacturers;
+            });            
+            if ($manufacturers) {
+                $jsonResponse = response()->json(['status' => 'success', 'manufacturers' => $manufacturers]);
                 return \Response::json($jsonResponse,200);
             }else{
                 $jsonError = response()->json(['message' => "This Company doesn't has any Manufacturer registered"]);
@@ -64,16 +64,14 @@ class InfoController extends Controller
     {
         try {
             
-            if($Manufacturer = Redis::get('manufacturer.entity.'.$id)){
-                $jsonResponse = response()->json(['status' => 'success', 'manufacturer' => $Manufacturer]);
-                return \Response::json($jsonResponse,200);
-            }
+            $repository = $this->repoManufacturer;
             
-            $Manufacturer = $this->repoManufacturer->find($id);
+            $manufacturer = Cache::remember('manufacturer_entity_' . $id, 1, function() use ($repository, $id) {
+                return $repository->find($id);
+            });
 
-            if ($Manufacturer) {
-                Redis::set('manufacturer.entity.'.$id, $Manufacturer);
-                $jsonResponse = response()->json(['status' => 'success', 'manufacturer' => $Manufacturer]);
+            if ($manufacturer) {
+                $jsonResponse = response()->json(['status' => 'success', 'manufacturer' => $manufacturer]);
                 return \Response::json($jsonResponse,200);
             }else{
                 $jsonError = response()->json(['message' => "This Manufacturer doesn't exists"]);

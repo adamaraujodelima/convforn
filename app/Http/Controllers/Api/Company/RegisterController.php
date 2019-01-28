@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Company;
 
 use App\Company;
 use App\CompanyRepository;
+use Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redis;
@@ -60,7 +61,9 @@ class RegisterController extends Controller
             ]);
 
             // Dispatching Event
-            event(new UpdateEntities($Company));
+            // event(new UpdateEntities($Company));
+            
+            Cache::add('company_entity_' . $request->user()->user_id, $Company, 60);
     
             $jsonResponse = response()->json(['status' => 'success', 'company' => $Company]);    
             return \Response::json($jsonResponse,200);

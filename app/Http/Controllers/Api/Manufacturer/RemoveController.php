@@ -42,11 +42,14 @@ class RemoveController extends Controller
     public function delete(Request $request, int $id = 0)
     {
         try {
-            $Manufacturer = $this->repoManufacturer->find($id);
-            if ($Manufacturer) {
-                $Manufacturer->delete();
-                // Dispatching Event
-                event(new UpdateEntities($Manufacturer));
+            $manufacturer = $this->repoManufacturer->find($id);
+            if ($manufacturer) {
+                $manufacturer->delete();
+                Cache::forget('manufacturer_entity_' . $id);
+                
+                $manufacturers = $repository->findByField('company_id',$request->user()->company->id);
+                Cache::put('manufacturer_all_' . $request->user()->id, $manufacturers, 60);
+
                 $jsonResponse = response()->json(['message' => 'The Manufacturer was removed']);
                 return \Response::json($jsonResponse,200);
             }

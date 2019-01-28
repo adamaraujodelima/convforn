@@ -72,7 +72,7 @@ class EditController extends Controller
                 return \Response::json($jsonError,400);
             }
 
-            $User = $this->updateUser($data, $Manufacturer);
+            $user = $this->updateUser($data, $Manufacturer);
             
             foreach ($data as $field => $value) {
                 $Manufacturer->{$field} = $value;
@@ -80,12 +80,17 @@ class EditController extends Controller
     
             $Manufacturer->save();
 
-            // Dispatching Event
-            event(new UpdateEntities($Manufacturer));
+            $hasCache = Cache::has('manufacturer_entity_' . $id);
+            if ($hasCache) {
+                Cache::put('manufacturer_entity_' . $id, $Manufacturer, 60);
+            }else{
+                Cache::add('manufacturer_entity_' . $id, $Manufacturer, 60);
+            }
     
             $jsonResponse = response()->json(['message' => 'success', 'manufacturer' => $Manufacturer]);
     
             return \Response::json($jsonResponse,200);
+            
         } catch (\Exception $e) {
             return $this->getError($e);
         }
@@ -94,12 +99,12 @@ class EditController extends Controller
 
     protected function updateUser(array $data, $Manufacturer)
     {
-        $User = $this->repoUser->find($Manufacturer->user->id);
-        $User->name = $data['name'];
-        $User->email = $data['email'];
-        $User->save();
+        $user = $this->repoUser->find($Manufacturer->user->id);
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->save();
 
-        return $User;
+        return $user;
     }
 
     protected function validator(array $data)
@@ -107,7 +112,7 @@ class EditController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:manufacturer,email,' . $data['id']],
-            //'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $data['id']],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $data['id']],
             'month_payment' => [
                 'required',
                 'max:10', 
