@@ -21,6 +21,9 @@ class CreateManufacturerTable extends Migration
             $table->timestamps();
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedInteger('company_id');
+            $table->foreign('company_id')->references('id')->on('company');
+            $table->softDeletes();
         });
     }
 

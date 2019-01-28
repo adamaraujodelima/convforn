@@ -14,6 +14,9 @@ class CreateCompanyTable extends Migration
     public function up()
     {
         Schema::create('company', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->string('name', 255);
             $table->string('cnpj')->unique();            
             $table->string('postcode', 10);            
@@ -23,8 +26,6 @@ class CreateCompanyTable extends Migration
             $table->string('city', 255);
             $table->string('state',255);
             $table->timestamps();
-            $table->unsignedInteger('user_id')>unique();
-            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

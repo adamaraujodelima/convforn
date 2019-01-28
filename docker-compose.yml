@@ -17,6 +17,10 @@ services:
     volumes:
        - ./:/var/www
        - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    links:
+      - db
+      - redis
+      - maildev
     networks:
       - app-network
 
@@ -31,7 +35,7 @@ services:
       - "443:443"
     volumes:
       - ./:/var/www
-      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./nginx/conf.d/:/etc/nginx/conf.d/    
     networks:
       - app-network
 
@@ -53,6 +57,27 @@ services:
       - ./mysql/my.cnf:/etc/mysql/my.cnf
     networks:
       - app-network
+  
+  # Redis
+  redis:
+    image: redis:4.0.5-alpine
+    ports:
+      - 6379:6379
+    command: ["redis-server", "--appendonly", "yes"]
+    hostname: redis
+    networks:
+      - app-network
+    volumes:
+      - redis-data:/data
+  
+  #MailDev
+  maildev:
+    image: djfarrelly/maildev
+    command: "bin/maildev --web 1080 --smtp 1025 --verbose"
+    ports:
+      - '1080:1080'
+    networks:
+      - app-network
 
 #Docker Networks
 networks:
@@ -61,5 +86,7 @@ networks:
 
 #Volumes
 volumes:
+  redis-data:
+    driver: local
   dbdata:
     driver: local

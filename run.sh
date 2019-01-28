@@ -21,5 +21,5 @@ docker exec -it app php artisan db:seed
 echo "Configurando API Authentication (Passport)"
 docker exec -it app php artisan passport:install
 
-echo "Informações do container Docker"
-docker ps -a 
+echo "Instalação finalizada. Acesse http://localhost para acessar a aplicação."
+#docker ps -a 

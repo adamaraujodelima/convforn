@@ -10,11 +10,11 @@
             <div class="card-header">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span>
-                        OAuth Applications
+                        Minhas aplicações
                     </span>
 
                     <a class="action-link" tabindex="-1" @click="showCreateClientForm">
-                        Create New Application
+                        Criar nova aplicação
                     </a>
                 </div>
             </div>
@@ -22,15 +22,15 @@
             <div class="card-body">
                 <!-- Current Clients -->
                 <p class="mb-0" v-if="clients.length === 0">
-                    You have not created any OAuth Applications.
+                    Você não tem nenhuma aplicação criada até o momento.
                 </p>
 
                 <table class="table table-borderless mb-0" v-if="clients.length > 0">
                     <thead>
                         <tr>
-                            <th>Client ID</th>
-                            <th>Name</th>
-                            <th>Secret</th>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Chave</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -56,21 +56,21 @@
                             <!-- Authorize -->
                             <td style="vertical-align: middle;">
                                 <a class="action-link" tabindex="-1" @click="redirect(client)">
-                                    Authorize
+                                    Autorizar
                                 </a>
                             </td>
                             
                             <!-- Edit Button -->
                             <td style="vertical-align: middle;">
                                 <a class="action-link" tabindex="-1" @click="edit(client)">
-                                    Edit
+                                    Editar
                                 </a>
                             </td>
 
                             <!-- Delete Button -->
                             <td style="vertical-align: middle;">
                                 <a class="action-link text-danger" @click="destroy(client)">
-                                    Delete
+                                    Remover
                                 </a>
                             </td>
                         </tr>
@@ -85,7 +85,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">
-                            Create Applications
+                            Create Aplicações
                         </h4>
 
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -124,7 +124,7 @@
                                 <label class="col-md-3 col-form-label">Redirect URL</label>
 
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" name="redirect"
+                                    <input type="text" readonly="true" class="form-control" name="redirect"
                                                     @keyup.enter="store" v-model="createForm.redirect">
 
                                     <span class="form-text text-muted">
@@ -192,7 +192,7 @@
                                 <label class="col-md-3 col-form-label">Redirect URL</label>
 
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" name="redirect"
+                                    <input type="text" readonly="true" class="form-control" name="redirect"
                                                     @keyup.enter="update" v-model="editForm.redirect">
 
                                     <span class="form-text text-muted">
@@ -229,13 +229,13 @@
                 createForm: {
                     errors: [],
                     name: '',
-                    redirect: ''
+                    redirect: 'http://localhost/client/callback'
                 },
 
                 editForm: {
                     errors: [],
                     name: '',
-                    redirect: ''
+                    redirect: 'http://localhost/client/callback'
                 }
             };
         },

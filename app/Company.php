@@ -31,4 +31,20 @@ class Company extends Model
         'updated_at',
         'user_id',
     ];
+
+     /**
+     * Get the user record associated with the company.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User','user_id');
+    }
+
+    /**
+     * Get the Manufacturer for the blog post.
+     */
+    public function manufacturer()
+    {
+        return $this->hasMany('App\Manufacturer');
+    }
 }

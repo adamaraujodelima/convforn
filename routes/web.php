@@ -11,25 +11,24 @@
 |
 */
 
-Route::get('/', function () {
+Route::middleware('verified')->get('/', function () {
     return view('welcome');
 });
 
 Route::group([
     'prefix' => 'admin'
 ], function(){
-    Route::get('/settings', 'SettingsController@index')->name('settings');
+    Route::middleware('verified')->get('/settings', 'SettingsController@index')->name('settings');
 });
 
 Route::group([
     'prefix' => 'client'
 ], function(){
-    Route::get('/authorize', 'Passport\CallbackController@authorizationCode')->name('authorize');
-    Route::get('/callback', 'Passport\CallbackController@index')->name('callback');
-    Route::post('/token-info', 'Passport\CallbackController@getToken')->name('getToken');
+    Route::middleware('verified')->get('/authorize', 'Passport\CallbackController@authorizationCode')->name('authorize');
+    Route::middleware('verified')->get('/callback', 'Passport\CallbackController@index')->name('callback');
+    Route::middleware('verified')->post('/token-info', 'Passport\CallbackController@getToken')->name('getToken');
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
-
-Auth::routes();
+Auth::routes(['verify' => true]);

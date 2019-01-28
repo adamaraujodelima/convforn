@@ -73,7 +73,7 @@
                         <a href="{{ route('login') }}">Login</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                            <a href="{{ route('register') }}">Registrar-se</a>
                         @endif
                     @endauth
                 </div>
@@ -85,7 +85,7 @@
                 </div>
 
                 <div class="links">
-                    <a href="{{ route('settings') }}">Settings</a>
+                    <a href="{{ route('settings') }}">Aplicações</a>
                 </div>
             </div>
         </div>

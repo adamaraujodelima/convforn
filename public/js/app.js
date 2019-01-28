@@ -2145,12 +2145,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       createForm: {
         errors: [],
         name: '',
-        redirect: ''
+        redirect: 'http://localhost/client/callback'
       },
       editForm: {
         errors: [],
         name: '',
-        redirect: ''
+        redirect: 'http://localhost/client/callback'
       }
     };
   },
@@ -38214,7 +38214,7 @@ var render = function() {
       ? _c("div", [
           _c("div", { staticClass: "card card-default" }, [
             _c("div", { staticClass: "card-header" }, [
-              _vm._v("Authorized Applications")
+              _vm._v("Aplicações autorizadas")
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
@@ -38269,7 +38269,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                                    Revoke\n                                "
+                                "\n                                    Revogar\n                                "
                               )
                             ]
                           )
@@ -38293,9 +38293,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Name")]),
+        _c("th", [_vm._v("Nome")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Scopes")]),
+        _c("th", [_vm._v("Escopo")]),
         _vm._v(" "),
         _c("th")
       ])
@@ -38338,7 +38338,7 @@ var render = function() {
           [
             _c("span", [
               _vm._v(
-                "\n                    OAuth Applications\n                "
+                "\n                    Minhas aplicações\n                "
               )
             ]),
             _vm._v(" "),
@@ -38351,7 +38351,7 @@ var render = function() {
               },
               [
                 _vm._v(
-                  "\n                    Create New Application\n                "
+                  "\n                    Criar nova aplicação\n                "
                 )
               ]
             )
@@ -38363,7 +38363,7 @@ var render = function() {
         _vm.clients.length === 0
           ? _c("p", { staticClass: "mb-0" }, [
               _vm._v(
-                "\n                You have not created any OAuth Applications.\n            "
+                "\n                Você não tem nenhuma aplicação criada até o momento.\n            "
               )
             ])
           : _vm._e(),
@@ -38410,7 +38410,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                                Authorize\n                            "
+                            "\n                                Autorizar\n                            "
                           )
                         ]
                       )
@@ -38430,7 +38430,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                                Edit\n                            "
+                            "\n                                Editar\n                            "
                           )
                         ]
                       )
@@ -38449,7 +38449,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                                Delete\n                            "
+                            "\n                                Remover\n                            "
                           )
                         ]
                       )
@@ -38565,7 +38565,11 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: { type: "text", name: "redirect" },
+                      attrs: {
+                        type: "text",
+                        readonly: "true",
+                        name: "redirect"
+                      },
                       domProps: { value: _vm.createForm.redirect },
                       on: {
                         keyup: function($event) {
@@ -38737,7 +38741,11 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: { type: "text", name: "redirect" },
+                      attrs: {
+                        type: "text",
+                        readonly: "true",
+                        name: "redirect"
+                      },
                       domProps: { value: _vm.editForm.redirect },
                       on: {
                         keyup: function($event) {
@@ -38815,11 +38823,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Client ID")]),
+        _c("th", [_vm._v("ID")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Name")]),
+        _c("th", [_vm._v("Nome")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Secret")]),
+        _c("th", [_vm._v("Chave")]),
         _vm._v(" "),
         _c("th"),
         _vm._v(" "),
@@ -38834,7 +38842,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "modal-header" }, [
       _c("h4", { staticClass: "modal-title" }, [
         _vm._v(
-          "\n                        Create Applications\n                    "
+          "\n                        Create Aplicações\n                    "
         )
       ]),
       _vm._v(" "),
